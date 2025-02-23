@@ -5,31 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        form { max-width: 300px; margin: auto; display: flex; flex-direction: column; }
-        input, button { margin: 10px 0; padding: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            width: 350px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 6px;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+        }
     </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="index.html">Sign Up</a></p>
+    </div>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        document.getElementById("login-form").addEventListener("submit", async function(event) {
             event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            const response = await fetch('https://trial-b.onrender.com/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("https://trial-b.onrender.com/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             });
+
             const data = await response.json();
-            alert(data.token ? 'Login Successful' : data.message);
+            alert(data.message);
+
+            if (response.ok) {
+                localStorage.setItem("token", data.token);
+                window.location.href = "dashboard.html";
+            }
         });
     </script>
 </body>

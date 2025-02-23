@@ -5,31 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        form { max-width: 300px; margin: auto; display: flex; flex-direction: column; }
-        input, button { margin: 10px 0; padding: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            overflow: hidden;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            width: 350px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 6px;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+        }
+
+        a {
+            color: #ff4b2b;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h2>Signup</h2>
-    <form id="signupForm">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Signup</button>
-    </form>
+    <canvas id="liquidCanvas"></canvas>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
     <script>
-        document.getElementById('signupForm').addEventListener('submit', async function(event) {
+        // Background Animation
+        const canvas = document.getElementById("liquidCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let time = 0;
+        function drawLiquid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.beginPath();
+            for (let i = 0; i < canvas.width; i += 10) {
+                let y = Math.sin(i * 0.01 + time) * 20 + canvas.height / 2;
+                ctx.lineTo(i, y);
+            }
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+            time += 0.05;
+            requestAnimationFrame(drawLiquid);
+        }
+        drawLiquid();
+
+        // Signup Form Submission
+        document.getElementById("signup-form").addEventListener("submit", async function(event) {
             event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            const response = await fetch('https://trial-b.onrender.com/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("https://trial-b.onrender.com/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password })
             });
+
             const data = await response.json();
             alert(data.message);
+
+            if (response.ok) {
+                window.location.href = "login.html";
+            }
         });
     </script>
 </body>
