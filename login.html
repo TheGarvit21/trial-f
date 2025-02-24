@@ -11,20 +11,27 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: #000;
             overflow: hidden;
             position: relative;
         }
 
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
         .container {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
             text-align: center;
             width: 350px;
-            color: white;
+            color: #0ff;
             position: relative;
             z-index: 2;
         }
@@ -35,29 +42,42 @@
             margin: 12px 0;
             border: none;
             border-radius: 6px;
+            font-size: 16px;
         }
 
         input {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: #0ff;
             outline: none;
-            transition: 0.3s;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            text-align: center;
         }
 
-        input:focus {
-            background: rgba(255, 255, 255, 0.5);
+        input::placeholder {
+            color: rgba(0, 255, 255, 0.5);
         }
 
         button {
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            background: linear-gradient(45deg, #00f, #0ff);
             color: white;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 0 10px #0ff;
         }
 
         button:hover {
-            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+            background: linear-gradient(45deg, #0ff, #00f);
+            box-shadow: 0 0 20px #0ff;
+        }
+
+        a {
+            color: #0ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
