@@ -1,0 +1,431 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "montserrat";
+  color: #fff;
+}
+
+html,
+body {
+  height: 100%;
+  /* perspective: 800px; */
+  width: 100%;
+}
+
+*::selection {
+  background-color: #fff;
+  color: #a3d421;
+}
+
+body::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  background: #95c11e;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #fff;
+
+  border-radius: 50px;
+}
+body {
+  overflow-x: hidden;
+}
+
+#cursor {
+  height: 10px;
+  width: 10px;
+  background-color: #1e80c15c;
+  border-radius: 50%;
+  position: fixed;
+  z-index: 99;
+}
+
+#cursor-blur {
+  height: 150px;
+  width: 150px;
+  background-color: #1e80c15c;
+  border-radius: 50%;
+  position: fixed;
+  filter: blur(50px);
+  z-index: 9;
+}
+
+#nav {
+  height: 120px;
+  width: 100%;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  padding: 0 150px;
+  gap: 50px;
+  position: fixed;
+  justify-content: flex-start;
+  z-index: 99;
+}
+
+#nav img {
+  height: 80px;
+}
+
+#nav h4 {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: fixed;
+  z-index: -1;
+}
+
+#main {
+  position: relative;
+  /* background-color: rgba(119, 123, 203, 0.078); */
+}
+
+#page1 {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  z-index: 10;
+}
+#page1 h1 {
+  font-size: 50px;
+  font-weight: 900;
+  color: #b0e12a;
+  position: relative;
+}
+/* #page1 h1:hover {
+  color: #95c11e;
+} */
+
+#page1 h1::before {
+  content: "EXPLORE. DISCOVER. ASTRONOMY.";
+  position: absolute;
+  color: #000;
+  top: -1px;
+  left: -1px;
+  -webkit-text-stroke: 3px #13759c;
+  z-index: -1;
+}
+#page1 h2::before {
+  content: "STARBOUND ADVENTURES AWAITS!";
+  position: absolute;
+  color: #000;
+  top: -1px;
+  left: -1px;
+  -webkit-text-stroke: 1px #0f78a1;
+  z-index: -1;
+}
+#page1 h2 {
+  font-size: 35px;
+  font-weight: 800;
+  color: #b0e12a;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+#page1 p {
+  font-size: 17px;
+  font-weight: 500;
+  width: 40%;
+}
+
+#page2 {
+  min-height: 100vh;
+  width: 100%;
+  z-index: 10;
+}
+
+#scroller {
+  /* background-color: red; */
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+#scroller::-webkit-scrollbar {
+  display: none;
+}
+
+#scroller-in {
+  display: inline-block;
+  white-space: nowrap;
+  animation-name: scroll;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+#scroller h4 {
+  display: inline-block;
+  font-size: 100px;
+  font-weight: 500px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-right: 5px;
+  transition: all linear 0.5s;
+  color: transparent;
+  -webkit-text-stroke: 2px green;
+}
+
+#scroller h4:hover {
+  color: #95c11e;
+}
+
+@keyframes scroll {
+  from {
+    transform: translate(x);
+  }
+  to {
+    transform: translate(-100%);
+  }
+}
+
+#about-us img {
+  height: 200px;
+  width: 200x;
+  border-radius: 20px;
+  object-fit: cover;
+}
+#about-us {
+  height: 40vh;
+  width: 100%;
+  /* background-color: red; */
+  display: flex;
+  padding: 0 50px;
+  align-items: center;
+  position: relative;
+  /* z-index: 10; */
+  justify-content: space-around;
+}
+
+#about-us-in {
+  width: 500px;
+  text-align: center;
+}
+#about-us-in h3 {
+  font-size: 30px;
+  font-weight: 800px;
+  margin-bottom: 20px;
+}
+#about-us-in p {
+  font-size: 18px;
+}
+
+#cards-container {
+  /* background-color: red; */
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  position: relative;
+  z-index: 10;
+}
+.card {
+  height: 80%;
+  width: 22%;
+  /* background-color: blue; */
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  transition: all ease 0.6s;
+}
+#card1 {
+  background-image: url(assets/card2.jpg);
+}
+#card2 {
+  background-image: url(assets/card3.jpg);
+}
+#card3 {
+  background-image: url(assets/card1.jpg);
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  background-color: #95c11e;
+  padding: 30px;
+  padding-top: 160px;
+  opacity: 0;
+  transition: all ease 0.6s;
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+.overlay h4 {
+  color: #000;
+  font-size: 20px;
+  text-transform: uppercase;
+  /* white-space: nowrap; */
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+.overlay p {
+  color: #000;
+  font-size: 18px;
+}
+
+.card:hover {
+  transform: rotate3d(-1, 1, 0, 15deg);
+}
+
+#green-div {
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: red; */
+  /* background: linear-gradient(to left bottom, #119f3a, #ace022); */
+}
+#green-div h4 {
+  width: 45%;
+  line-height: 50px;
+  color: #95c11e;
+  text-align: center;
+  font-weight: 800;
+  font-size: 27px;
+  text-transform: uppercase;
+}
+#green-div img {
+  height: 100%;
+  object-fit: cover;
+  width: 5%;
+}
+
+#page3 {
+  height: 100vh;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+}
+#page3 > p {
+  font-size: 30px;
+  font-weight: 700;
+  width: 50%;
+  line-height: 45px;
+  text-align: center;
+}
+#page3 img {
+  height: 400px;
+  margin-top: 20px;
+}
+
+#page4 {
+  height: 30vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 70px;
+  position: relative;
+  /* background-color: red; */
+}
+.elem {
+  height: 70%;
+  width: 26%;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+.elem h2 {
+  height: 100%;
+  width: 100%;
+  background-color: #95c11e;
+  display: flex;
+  color: #000;
+  font-weight: 800;
+  align-items: center;
+  justify-content: center;
+  transition: all ease 0.5s;
+  font-size: 2vw;
+  position: absolute;
+  z-index: 10;
+}
+
+.elem img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: all ease 0.5s;
+  scale: 1.1;
+}
+.elem:hover h2 {
+  color: #fff;
+  background-color: transparent;
+}
+.elem:hover img {
+  scale: 1;
+}
+
+#footer {
+  height: 40vh;
+  width: 100%;
+  background: linear-gradient(to left bottom, #119f3a 0%, #a3d421 80%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6.5vw;
+  padding: 0 100px;
+}
+#footer > img {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  z-index: 0;
+}
+#f1 img {
+  height: 100px;
+}
+#f1,
+#f2,
+#f3,
+#f4 {
+  width: fit-content;
+  position: relative;
+  z-index: 99;
+  /* background-color: red; */
+}
+#f2 h3 {
+  font-size: 1.6vw;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+#f3 h3 {
+  font-size: 1.6vw;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+#f4 h4 {
+  font-size: 1vw;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
