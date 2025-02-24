@@ -491,7 +491,6 @@ document.getElementById('profileForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const saveButton = e.target.querySelector('.save-button');
     
-    // Get form data
     const formData = {
         fullName: document.getElementById('fullName').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -500,26 +499,19 @@ document.getElementById('profileForm').addEventListener('submit', async (e) => {
     };
 
     // Validate form
-    const errors = validateForm(formData);
-    
-    if (errors.length > 0) {
-        // Show error notification with first error
-        showNotification('error', errors[0]);
+    if (!formData.fullName || !formData.email) {
+        showNotification('error', 'Please fill in all required fields');
         return;
     }
-
-    // Add loading state
-    saveButton.disabled = true;
-    saveButton.textContent = 'Saving...';
 
     try {
         // Save to localStorage
         localStorage.setItem('userProfile', JSON.stringify(formData));
+        localStorage.setItem('profileConfigured', 'true');
 
-        // Show success notification
         showNotification('success', 'Profile updated successfully!');
 
-        // Redirect after success
+        // Don't redirect immediately after saving
         setTimeout(() => {
             window.location.href = 'profile.html';
         }, 1500);
@@ -527,10 +519,6 @@ document.getElementById('profileForm').addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Error:', error);
         showNotification('error', 'Error saving changes. Please try again.');
-    } finally {
-        // Remove loading state
-        saveButton.disabled = false;
-        saveButton.textContent = 'Save Changes';
     }
 });
 
@@ -556,4 +544,39 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update preview elements
         document.getElementById('userName').textContent = profileData.fullName || 'John Doe';
     }
+
+    // Call this when the profile page loads
+    checkProfileStatus();
+    loadProfileData();
 });
+
+// Add this function at the beginning of profile/script.js
+function checkProfileStatus() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const hasConfiguredProfile = localStorage.getItem('profileConfigured') === 'true';
+    
+    if (!isLoggedIn) {
+        window.location.href = '../login.html';
+        return;
+    }
+    
+    if (!hasConfiguredProfile) {
+        // Show first-time setup message
+        document.querySelector('.profile-header h1').textContent = 'Complete Your Profile';
+        document.querySelector('.back-button').style.display = 'none';
+    }
+}
+
+function loadProfileData() {
+    const profileData = localStorage.getItem('userProfile');
+    if (profileData) {
+        const data = JSON.parse(profileData);
+        document.getElementById('fullName').value = data.fullName || '';
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('location').value = data.location || '';
+        document.getElementById('bio').value = data.bio || '';
+        
+        // Update preview elements
+        document.getElementById('userName').textContent = data.fullName || 'John Doe';
+    }
+}
