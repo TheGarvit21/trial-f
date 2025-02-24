@@ -629,3 +629,40 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// Add this function at the beginning of script.js
+function updateNavButtons() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const hasConfiguredProfile = localStorage.getItem('profileConfigured') === 'true';
+    const navRight = document.querySelector('.nav-right');
+    
+    if (isLoggedIn && hasConfiguredProfile) {
+        // Show user profile button
+        navRight.innerHTML = `
+            <a href="profile/profile.html" class="auth-btn profile-btn">
+                <i class="fas fa-user"></i> My Profile
+            </a>
+            <button class="auth-btn logout-btn" onclick="handleLogout()">Logout</button>
+        `;
+    } else if (isLoggedIn && !hasConfiguredProfile) {
+        // Redirect to profile configuration
+        window.location.href = 'profile/index.html';
+    } else {
+        // Show login/signup buttons
+        navRight.innerHTML = `
+            <a href="login.html"><button class="auth-btn login-btn">Login</button></a>
+            <a href="signup.html"><button class="auth-btn signup-btn">Sign Up</button></a>
+        `;
+    }
+}
+
+// Add logout handler
+function handleLogout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('profileConfigured');
+    localStorage.removeItem('userProfile');
+    updateNavButtons();
+}
+
+// Call this when the page loads
+document.addEventListener('DOMContentLoaded', updateNavButtons);
