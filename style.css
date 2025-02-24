@@ -1288,3 +1288,24 @@ video {
       box-shadow: 0 5px 25px rgba(7, 86, 102, 0.5);
     }
   }
+
+/* Add these styles to style.css */
+.profile-btn {
+    background: linear-gradient(45deg, rgb(7, 86, 102), #95c11e);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 2px solid #ff3b30;
+    color: #ff3b30;
+}
+
+.logout-btn:hover {
+    background: #ff3b30;
+    color: white;
+}
