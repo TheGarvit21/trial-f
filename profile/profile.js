@@ -201,17 +201,41 @@ document.querySelector('.edit-profile-link').addEventListener('click', function(
         .to({}, {
             duration: 0.1,
             onComplete: () => {
-                // Store current profile data in localStorage before redirecting
-                const currentProfileData = {
-                    name: document.getElementById('userName').textContent,
-                    role: document.getElementById('userRole').textContent,
-                    avatar: document.getElementById('userAvatar').src,
-                    // Add any other data you want to persist
-                };
-                localStorage.setItem('currentProfileData', JSON.stringify(currentProfileData));
-                
-                // Redirect to edit profile page
                 window.location.href = 'index.html';
             }
         });
 });
+
+// Add this at the beginning of profile.js
+document.addEventListener('DOMContentLoaded', () => {
+    loadUserProfile();
+});
+
+function loadUserProfile() {
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        window.location.href = '../login.html';
+        return;
+    }
+
+    // Load profile data
+    const profileData = localStorage.getItem('userProfile');
+    if (profileData) {
+        const data = JSON.parse(profileData);
+        
+        // Update profile elements
+        document.getElementById('userName').textContent = data.fullName || 'John Doe';
+        document.getElementById('userRole').textContent = data.email || 'Member';
+        
+        // Update stats if needed
+        document.getElementById('chatCount').textContent = '247';
+        document.getElementById('hoursCount').textContent = '42';
+        document.getElementById('ratingScore').textContent = '4.8';
+
+        // You can add more profile data updates here
+    } else {
+        // If no profile data exists, redirect to profile setup
+        window.location.href = 'index.html';
+    }
+}
