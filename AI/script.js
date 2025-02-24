@@ -73,6 +73,10 @@ let currentConversationId = null;
 let uploadedFile = null;
 let fileContent = null;
 
+// Add these variables at the top of the file
+let recognition = null;
+let isListening = false;
+
 // Add file handling functions
 function handleFileSelect(event) {
     const file = event.target.files[0];
@@ -378,7 +382,7 @@ function addMessage(text, sender) {
     if (sender === 'bot') {
         const avatar = document.createElement('div');
         avatar.className = 'bot-avatar';
-        avatar.innerHTML = '<img src="https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png" alt="Gemini">';
+        avatar.innerHTML = '<i class="fas fa-robot"></i>';
         messageDiv.appendChild(avatar);
     }
 
@@ -737,7 +741,7 @@ document.querySelector('.new-chat').addEventListener('click', () => {
     welcomeScreen.className = 'welcome-screen';
     welcomeScreen.id = 'welcomeScreen';
     welcomeScreen.innerHTML = `
-        <h1>Hello, I'm Gemini</h1>
+        <h1>Hello, I'm Verse AI</h1>
         <p>How can I help you today?</p>
         <div class="suggestion-chips">
             <button>Help me write</button>
@@ -797,11 +801,7 @@ document.getElementById('chatMessages').addEventListener('mouseout', (e) => {
     }
 });
 
-// Add these variables at the top of the file after API declarations
-let recognition = null;
-let isListening = false;
-
-// Initialize speech recognition when the page loads
+// Update the speech recognition initialization
 document.addEventListener('DOMContentLoaded', async () => {
     // Load voices first
     await loadVoices();
@@ -814,69 +814,77 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Create the recognition object
-    recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    // Create listening animation element
-    const listeningAnimation = document.createElement('div');
-    listeningAnimation.className = 'listening-animation';
-    listeningAnimation.innerHTML = `
-        <div class="listening-waves">
-            ${Array(8).fill('<div class="listening-wave"></div>').join('')}
-        </div>
-        <div class="listening-text">Listening...</div>
-    `;
-    document.body.appendChild(listeningAnimation);
-
-    // Add click handler for mic button
-    const micButton = document.querySelector('.mic-btn');
-    micButton.addEventListener('click', toggleSpeechRecognition);
-
-    // Set up recognition event handlers
-    recognition.onstart = () => {
-        console.log('Speech recognition started');
-        isListening = true;
-        updateMicButton();
-        showListeningAnimation();
-    };
-
-    recognition.onend = () => {
-        console.log('Speech recognition ended');
-        isListening = false;
-        updateMicButton();
-        hideListeningAnimation();
-    };
-
-    recognition.onresult = (event) => {
-        const transcript = Array.from(event.results)
-            .map(result => result[0].transcript)
-            .join('');
-
-        // Update textarea and make it visible
-        textarea.value = transcript;
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+    // First request microphone permission
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(track => track.stop()); // Stop the stream after getting permission
         
-        if (event.results[0].isFinal) {
-            wasVoiceInput = true;
-            recognition.stop();
-            // Send message directly without adding user message first
-            sendMessage();
-        }
-    };
+        // Initialize speech recognition
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
 
-    recognition.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        isListening = false;
-        updateMicButton();
-        hideListeningAnimation();
-    };
+        // Set up recognition event handlers
+        recognition.onstart = () => {
+            console.log('Speech recognition started');
+            isListening = true;
+            updateMicButton();
+            showListeningAnimation();
+        };
+
+        recognition.onend = () => {
+            console.log('Speech recognition ended');
+            isListening = false;
+            updateMicButton();
+            hideListeningAnimation();
+            if (wasVoiceInput) {
+                wasVoiceInput = false;
+            }
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = Array.from(event.results)
+                .map(result => result[0].transcript)
+                .join(' ');
+
+            console.log('Transcript:', transcript); // Debug log
+
+            const textarea = document.getElementById('userInput');
+            textarea.value = transcript;
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+            
+            document.getElementById('sendBtn').disabled = !transcript.trim();
+
+            // Only send message when we get final result
+            if (event.results[0].isFinal) {
+                wasVoiceInput = true;
+                recognition.stop();
+                if (transcript.trim()) {
+                    setTimeout(() => sendMessage(), 100);
+                }
+            }
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            isListening = false;
+            updateMicButton();
+            hideListeningAnimation();
+        };
+
+        // Add click handler for mic button
+        const micButton = document.querySelector('.mic-btn');
+        micButton.addEventListener('click', toggleSpeechRecognition);
+
+    } catch (err) {
+        console.error('Microphone permission denied:', err);
+        document.querySelector('.mic-btn').style.display = 'none';
+    }
 });
 
-// Function to toggle speech recognition
+// Update toggleSpeechRecognition function
 function toggleSpeechRecognition() {
     if (!recognition) {
         console.error('Speech recognition not initialized');
@@ -886,15 +894,29 @@ function toggleSpeechRecognition() {
     if (isListening) {
         recognition.stop();
         stopSpeaking();
-        wasVoiceInput = false; // Reset flag when stopping
+        wasVoiceInput = false;
     } else {
         stopSpeaking();
-        wasVoiceInput = true; // Set flag when starting voice input
-        recognition.start();
+        wasVoiceInput = true;
+        try {
+            recognition.start();
+            console.log('Starting recognition...'); // Debug log
+        } catch (error) {
+            console.error('Error starting recognition:', error);
+            // If recognition is already started, stop and restart
+            recognition.stop();
+            setTimeout(() => {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error('Failed to restart recognition:', e);
+                }
+            }, 100);
+        }
     }
 }
 
-// Update the mic button appearance
+// Update updateMicButton function
 function updateMicButton() {
     const micBtn = document.querySelector('.mic-btn');
     const micIcon = micBtn.querySelector('i');
@@ -1013,4 +1035,5 @@ function highlightCode(code) {
         .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
         .replace(/#.*/g, '<span class="comment">$&</span>');
 }
+
 
