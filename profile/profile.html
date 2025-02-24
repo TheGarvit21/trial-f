@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <canvas id="bgCanvas"></canvas>
+    <div class="gradient-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="user-brief">
+                <div class="user-avatar">
+                    <img src="profile_pic.png" id="userAvatar" alt="User">
+                    <div class="status-indicator online"></div>
+                </div>
+                <h3 id="userName">John Doe</h3>
+                <p id="userRole">Premium Member</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#overview" class="active">
+                    <i class="fas fa-home"></i> Overview
+                </a>
+                <a href="#activity">
+                    <i class="fas fa-chart-line"></i> Activity
+                </a>
+                <a href="index.html" class="edit-profile-link"> <!-- Add this link -->
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <h1>Profile Overview</h1>
+                <div class="header-actions">
+                    <button class="premium-btn">
+                        <i class="fas fa-crown"></i> Premium
+                    </button>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>AI Chats</h3>
+                        <p id="chatCount">0</p>
+                    </div>
+                    <div class="stat-chart" id="chatChart"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Hours Used</h3>
+                        <p id="hoursCount">0</p>
+                    </div>
+                    <div class="stat-chart" id="hoursChart"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Rating</h3>
+                        <p id="ratingScore">0</p>
+                    </div>
+                    <div class="stat-chart" id="ratingChart"></div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div class="activity-timeline" id="activityTimeline">
+                    <!-- Activity items will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Chat History -->
+            
+        </main>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <div class="usage-stats">
+                <h3>Usage Statistics</h3>
+                <div class="usage-chart" id="usageChart"></div>
+            </div>
+
+            <div class="premium-features">
+                <h3>Premium Features</h3>
+                <ul class="features-list">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Advanced AI Models
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Unlimited Chats
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Priority Support
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

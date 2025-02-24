@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerseAI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png" alt="Gemini Logo">
+            <span>Verse AI</span>
+        </div>
+        <button class="new-chat">
+            <i class="fas fa-plus"></i>
+            New chat
+        </button>
+        <div class="chat-history">
+            <!-- Chat history will be added here -->
+        </div>
+        <div class="sidebar-footer">
+            <button class="theme-toggle">
+                <i class="fas fa-sun"></i>
+                Light mode
+            </button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="chat-container">
+            <div class="welcome-screen" id="welcomeScreen">
+                <h1>Hello, I'm Verse AI</h1>
+                <p>How can I help you today?</p>
+                <div class="suggestion-chips">
+                    <button>Help me write</button>
+                    <button>Help me analyze</button>
+                    <button>Help me code</button>
+                    <button>Help me learn</button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here -->
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <div class="chat-input-container">
+                <div class="file-upload">
+                    <input type="file" id="fileInput" accept="image/*,.pdf,text/plain" onchange="handleFileUpload(event)" />
+                    <label for="fileInput">
+                        <i class="fas fa-paperclip"></i>
+                    </label>
+                    <div class="file-preview"></div>
+                    <div class="upload-status"></div>
+                </div>
+                <textarea id="userInput" placeholder="Message VerseAI..." rows="1"></textarea>
+                <div class="input-buttons">
+                    <button class="stop-btn" style="display: none;" onclick="stopAllActions()">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button class="mic-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="sendBtn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="input-footer">
+                <p></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+</body>
+</html> 

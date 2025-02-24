@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="profile-container">
+        
+        <!-- Add this notification container after your profile-container div -->
+        <div class="notification-container">
+            <div class="notification" id="saveNotification">
+                <i class="fas fa-check-circle"></i>
+                <span class="notification-message">Changes saved successfully!</span>
+            </div>
+        </div>
+
+        <!-- 3D Background Canvas -->
+        <canvas id="bgCanvas"></canvas>
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar-container">
+                <div class="profile-avatar">
+                    <img src="profile_pic.png" id="avatarImg" alt="Profile">
+                    <input type="file" id="avatarUpload" accept="image/*">
+                </div>
+                <div class="avatar-overlay">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <h1 class="profile-name" id="userName">John Doe</h1>
+            <p class="profile-status">Premium Member</p>
+        </div>
+
+        <!-- Profile Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <i class="fas fa-comments"></i>
+                <h3>Chat Sessions</h3>
+                <p id="chatCount">247</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Hours Used</h3>
+                <p id="hoursCount">42</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-star"></i>
+                <h3>Rating</h3>
+                <p id="ratingCount">4.8</p>
+            </div>
+        </div>
+
+        <!-- Profile Details Form -->
+        <div class="profile-details">
+            <h2>Profile Details</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="location" placeholder="Enter your location">
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="bio" placeholder="Tell us about yourself"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-button">Save Changes</button>
+                    <button type="button" class="back-button" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Back to Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add this notification container after your form -->
+<div class="notification-container">
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-check-circle success-icon"></i>
+            <i class="fas fa-times-circle error-icon"></i>
+        </div>
+        <div class="notification-message"></div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
