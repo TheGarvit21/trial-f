@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerseAI Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>VerseAI Admin</h2>
+            </div>
+            <nav>
+                <a href="./index.html" class="active"><i class="fas fa-home"></i>Dashboard</a>
+                <a href="./users.html"><i class="fas fa-users"></i>Users</a>
+                <a href="./analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+                <a href="./settings.html"><i class="fas fa-cog"></i>Settings</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="admin-profile">
+                    <span>Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin" alt="Admin">
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e3f2fd;">
+                        <i class="fas fa-users" style="color: #1e88e5;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Total Users</h3>
+                        <p class="total-users">0</p>
+                        <span class="trend positive">+12% <i class="fas fa-arrow-up"></i></span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e8f5e9;">
+                        <i class="fas fa-crown" style="color: #43a047;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Premium Users</h3>
+                        <p class="premium-users">0</p>
+                        <span class="trend positive">+5% <i class="fas fa-arrow-up"></i></span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fff3e0;">
+                        <i class="fas fa-user-clock" style="color: #fb8c00;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Active Now</h3>
+                        <p class="active-users">0</p>
+                        <span class="trend positive">+8% <i class="fas fa-arrow-up"></i></span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fce4ec;">
+                        <i class="fas fa-dollar-sign" style="color: #e91e63;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Total Revenue</h3>
+                        <p class="total-revenue">$0</p>
+                        <span class="trend positive">+15% <i class="fas fa-arrow-up"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>User Growth</h3>
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Revenue Trend</h3>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="users-table-container">
+                <div class="table-header">
+                    <h3>Recent Users</h3>
+                    <button class="export-btn"><i class="fas fa-download"></i> Export</button>
+                </div>
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Table rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

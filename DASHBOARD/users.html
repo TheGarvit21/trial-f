@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - VerseAI Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Same sidebar as index.html but with users link active -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png" alt="VerseAI Logo">
+                <h2>VerseAI Admin</h2>
+            </div>
+            <nav>
+                <a href="./index.html"><i class="fas fa-home"></i>Dashboard</a>
+                <a href="./users.html" class="active"><i class="fas fa-users"></i>Users</a>
+                <a href="./analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+                <a href="./settings.html"><i class="fas fa-cog"></i>Settings</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search users..." id="userSearch">
+                </div>
+                <div class="admin-profile">
+                    <span>Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin" alt="Admin">
+                </div>
+            </header>
+
+            <div class="users-controls">
+                <div class="filters">
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Free">Free</option>
+                    </select>
+                    <select id="sortBy">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+                <button class="export-btn"><i class="fas fa-download"></i> Export</button>
+            </div>
+
+            <div class="users-table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Table rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="users.js"></script>
+</body>
+</html> 

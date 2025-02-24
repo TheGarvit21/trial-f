@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - VerseAI Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Same sidebar with settings active -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png" alt="VerseAI Logo">
+                <h2>VerseAI Admin</h2>
+            </div>
+            <nav>
+                <a href="./index.html"><i class="fas fa-home"></i>Dashboard</a>
+                <a href="./users.html"><i class="fas fa-users"></i>Users</a>
+                <a href="./analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+                <a href="./settings.html" class="active"><i class="fas fa-cog"></i>Settings</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="settings-container">
+                <div class="settings-section">
+                    <h2>General Settings</h2>
+                    <div class="setting-item">
+                        <label>Site Name</label>
+                        <input type="text" value="VerseAI" id="siteName">
+                    </div>
+                    <div class="setting-item">
+                        <label>Admin Email</label>
+                        <input type="email" value="admin@verseai.com" id="adminEmail">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h2>Premium Settings</h2>
+                    <div class="setting-item">
+                        <label>Premium Price (Monthly)</label>
+                        <input type="number" value="9.99" id="premiumPrice">
+                    </div>
+                    <div class="setting-item">
+                        <label>Trial Period (Days)</label>
+                        <input type="number" value="7" id="trialDays">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h2>API Settings</h2>
+                    <div class="setting-item">
+                        <label>API Key</label>
+                        <div class="api-key-input">
+                            <input type="password" value="your-api-key" id="apiKey">
+                            <button class="show-key-btn"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h2>Subscription Plans</h2>
+                    
+                    <!-- Starter Plan -->
+                    <div class="plan-settings">
+                        <h3>Starter Plan</h3>
+                        <div class="setting-item">
+                            <label>Price ($/month)</label>
+                            <input type="number" value="29" id="starterPrice">
+                        </div>
+                        <div class="setting-item">
+                            <label>Monthly Usage (Hours)</label>
+                            <input type="number" value="5" id="starterUsage">
+                        </div>
+                        <div class="setting-item">
+                            <label>Features</label>
+                            <div class="feature-list">
+                                <input type="text" value="Basic AI Chat Access" class="feature-input">
+                                <input type="text" value="Standard Response Time" class="feature-input">
+                                <input type="text" value="Basic Customization" class="feature-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="plan-settings">
+                        <h3>Pro Plan</h3>
+                        <div class="setting-item">
+                            <label>Price ($/month)</label>
+                            <input type="number" value="79" id="proPrice">
+                        </div>
+                        <div class="setting-item">
+                            <label>Usage</label>
+                            <input type="text" value="Unlimited" id="proUsage">
+                        </div>
+                        <div class="setting-item">
+                            <label>Features</label>
+                            <div class="feature-list">
+                                <input type="text" value="Advanced AI Features" class="feature-input">
+                                <input type="text" value="Priority Response" class="feature-input">
+                                <input type="text" value="Full Customization" class="feature-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="plan-settings">
+                        <h3>Enterprise Plan</h3>
+                        <div class="setting-item">
+                            <label>Price ($/month)</label>
+                            <input type="number" value="199" id="enterprisePrice">
+                        </div>
+                        <div class="setting-item">
+                            <label>Features</label>
+                            <div class="feature-list">
+                                <input type="text" value="Custom AI Solutions" class="feature-input">
+                                <input type="text" value="Dedicated Support" class="feature-input">
+                                <input type="text" value="API Access" class="feature-input">
+                                <input type="text" value="Custom Integration" class="feature-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="save-settings-btn">Save Changes</button>
+            </div>
+        </main>
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html> 
