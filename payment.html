@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscriptions</title>
+    <link rel="stylesheet" href="payment-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <canvas id="bgCanvas"></canvas>
+    <div class="gradient-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="payment-container">
+        <!-- Pricing Section -->
+        <section class="pricing-section" id="pricingSection">
+            <h1 class="section-title">Choose Your Plan</h1>
+            <div class="pricing-toggle">
+                <span>Monthly</span>
+                <label class="switch">
+                    <input type="checkbox" id="billingToggle">
+                    <span class="slider"></span>
+                </label>
+                <span>Yearly <span class="save-badge">Save 20%</span></span>
+            </div>
+
+            <div class="pricing-cards">
+                <!-- Basic Plan -->
+                <div class="pricing-card" data-plan="basic">
+                    <div class="card-header">
+                        <h3>Basic</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="29" data-yearly="279">29</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> 100 AI Chat Sessions</li>
+                            <li><i class="fas fa-check"></i> Basic AI Models</li>
+                            <li><i class="fas fa-check"></i> Email Support</li>
+                            <li><i class="fas fa-check"></i> Chat History</li>
+                        </ul>
+                    </div>
+                    <button class="select-plan-btn" data-plan="basic">Select Plan</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card featured" data-plan="pro">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="card-header">
+                        <h3>Pro</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="49" data-yearly="469">49</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> Unlimited AI Chat Sessions</li>
+                            <li><i class="fas fa-check"></i> Advanced AI Models</li>
+                            <li><i class="fas fa-check"></i> Priority Support</li>
+                            <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                            <li><i class="fas fa-check"></i> Custom Prompts</li>
+                        </ul>
+                    </div>
+                    <button class="select-plan-btn" data-plan="pro">Select Plan</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card" data-plan="enterprise">
+                    <div class="card-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount" data-monthly="99" data-yearly="949">99</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> Everything in Pro</li>
+                            <li><i class="fas fa-check"></i> Custom AI Models</li>
+                            <li><i class="fas fa-check"></i> 24/7 Support</li>
+                            <li><i class="fas fa-check"></i> API Access</li>
+                            <li><i class="fas fa-check"></i> Team Management</li>
+                        </ul>
+                    </div>
+                    <button class="select-plan-btn" data-plan="enterprise">Select Plan</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Section -->
+        <section class="payment-section hidden" id="paymentSection">
+            <button class="back-btn" id="backToPlans">
+                <i class="fas fa-arrow-left"></i> Back to Plans
+            </button>
+            
+            <div class="payment-content">
+                <div class="payment-summary">
+                    <h2>Order Summary</h2>
+                    <div class="plan-details">
+                        <span id="selectedPlan">Pro Plan</span>
+                        <span id="planPrice">$49/month</span>
+                    </div>
+                    <div class="total-amount">
+                        <span>Total</span>
+                        <span id="totalAmount">$49</span>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <h2>Payment Method</h2>
+                    <div class="payment-options">
+                        <button class="payment-option active" data-method="card">
+                            <i class="fas fa-credit-card"></i>
+                            Credit Card
+                        </button>
+                        <button class="payment-option" data-method="paypal">
+                            <i class="fab fa-paypal"></i>
+                            PayPal
+                        </button>
+                        <button class="payment-option" data-method="upi">
+                            <i class="fas fa-mobile-alt"></i>
+                            UPI
+                        </button>
+                    </div>
+
+                    <form id="paymentForm" class="payment-form">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" id="expiryDate" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" id="cvv" placeholder="123">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Name on Card</label>
+                            <input type="text" id="cardName" placeholder="John Doe">
+                        </div>
+                        <button type="submit" class="pay-now-btn">
+                            <span>Pay Now</span>
+                            <i class="fas fa-lock"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Section -->
+        <section class="success-section hidden" id="successSection">
+            <div class="success-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Payment Successful!</h2>
+                <p>Thank you for your subscription. You now have access to premium features.</p>
+                <button class="goto-dashboard-btn">
+                    Go to Dashboard
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="payment.js"></script>
+</body>
+</html>
