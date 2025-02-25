@@ -725,3 +725,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 250);
   });
 });
+
+// Add these functions at the end of script.js
+
+function showLoginPopup() {
+  document.getElementById('login-popup').style.display = 'block';
+}
+
+function closePopup() {
+  document.getElementById('login-popup').style.display = 'none';
+}
+
+function redirectToLogin() {
+  window.location.href = 'login.html';
+}
+
+function handleChatClick() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (isLoggedIn) {
+    window.location.href = 'AI/index.html';
+  } else {
+    showLoginPopup();
+  }
+}
+
+// Add this when the document loads
+document.addEventListener('DOMContentLoaded', function() {
+  const chatButton = document.querySelector('#page1 button');
+  
+  chatButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
+    if (!isLoggedIn) {
+      showLoginPopup();
+    } else {
+      window.location.href = 'AI/index.html';
+    }
+  });
+});
