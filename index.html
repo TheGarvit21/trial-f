@@ -55,7 +55,7 @@
           Whether you're talking about tech, life, or just having fun, 
           experience intelligent and meaningful conversations like never before.
         </p>
-        <a href="AI/index.html" ><button>Chat With AI</button></a>
+        <button onclick="handleChatClick()">Chat With AI</button>
 
       </div>
 
@@ -389,5 +389,15 @@
 
     <!-- my script -->
     <script src="script.js"></script>
+
+    <!-- Add this popup div just before closing body tag -->
+    <div id="login-popup" class="popup-overlay">
+      <div class="popup-content">
+        <h3>Login Required</h3>
+        <p>Please login to access AI Chat features</p>
+        <button onclick="redirectToLogin()">Login Now</button>
+        <button class="close-popup" onclick="closePopup()">Close</button>
+      </div>
+    </div>
   </body>
 </html>
