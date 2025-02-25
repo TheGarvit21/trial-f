@@ -801,7 +801,7 @@ document.getElementById('chatMessages').addEventListener('mouseout', (e) => {
     }
 });
 
-// Update the speech recognition initialization
+// Update the speech recognition setup
 document.addEventListener('DOMContentLoaded', async () => {
     // Load voices first
     await loadVoices();
@@ -820,61 +820,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         stream.getTracks().forEach(track => track.stop()); // Stop the stream after getting permission
         
         // Initialize speech recognition
-        recognition = new SpeechRecognition();
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.lang = 'en-US'; // Add language setting
 
-        // Set up recognition event handlers
-        recognition.onstart = () => {
-            console.log('Speech recognition started');
-            isListening = true;
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            textarea.value = transcript;
+            hideMicPopup();
+            isListening = false;
             updateMicButton();
-            showListeningAnimation();
+
+            // Auto send message after voice input
+            if (transcript.trim()) {
+                setTimeout(() => {
+                    const sendBtn = document.getElementById('sendBtn');
+                    sendBtn.disabled = false;
+                    sendMessage();
+                }, 500);
+            }
         };
 
         recognition.onend = () => {
-            console.log('Speech recognition ended');
             isListening = false;
+            hideMicPopup();
             updateMicButton();
-            hideListeningAnimation();
-            if (wasVoiceInput) {
-                wasVoiceInput = false;
-            }
-        };
-
-        recognition.onresult = (event) => {
-            const transcript = Array.from(event.results)
-                .map(result => result[0].transcript)
-                .join(' ');
-
-            console.log('Transcript:', transcript); // Debug log
-
-            const textarea = document.getElementById('userInput');
-            textarea.value = transcript;
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-            
-            document.getElementById('sendBtn').disabled = !transcript.trim();
-
-            // Only send message when we get final result
-            if (event.results[0].isFinal) {
-                wasVoiceInput = true;
-                recognition.stop();
-                if (transcript.trim()) {
-                    setTimeout(() => sendMessage(), 100);
-                }
-            }
         };
 
         recognition.onerror = (event) => {
             console.error('Speech recognition error:', event.error);
             isListening = false;
+            hideMicPopup();
             updateMicButton();
-            hideListeningAnimation();
+            // Show error message to user
+            const errorMessage = event.error === 'not-allowed' 
+                ? 'Microphone access denied. Please check your permissions.'
+                : 'Error with speech recognition. Please try again.';
+            showNotification(errorMessage, 'error');
         };
 
-        // Add click handler for mic button
         const micButton = document.querySelector('.mic-btn');
         micButton.addEventListener('click', toggleSpeechRecognition);
 
@@ -882,9 +867,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Microphone permission denied:', err);
         document.querySelector('.mic-btn').style.display = 'none';
     }
+
+    // Handle placeholder text for different screen sizes
+    const updatePlaceholder = () => {
+        if (window.innerWidth <= 768) {
+            textarea.placeholder = "Chat";
+        } else {
+            textarea.placeholder = "Message VerseAI...";
+        }
+    };
+
+    // Initial call
+    updatePlaceholder();
+
+    // Update on resize
+    window.addEventListener('resize', updatePlaceholder);
 });
 
-// Update toggleSpeechRecognition function
+// Add these functions to handle the mic popup
+function showMicPopup() {
+    document.querySelector('.mic-popup').classList.add('active');
+    document.querySelector('.mic-popup-overlay').classList.add('active');
+}
+
+function hideMicPopup() {
+    document.querySelector('.mic-popup').classList.remove('active');
+    document.querySelector('.mic-popup-overlay').classList.remove('active');
+}
+
+// Update the toggleSpeechRecognition function
 function toggleSpeechRecognition() {
     if (!recognition) {
         console.error('Speech recognition not initialized');
@@ -895,25 +906,35 @@ function toggleSpeechRecognition() {
         recognition.stop();
         stopSpeaking();
         wasVoiceInput = false;
+        hideMicPopup();
+        isListening = false;
     } else {
         stopSpeaking();
         wasVoiceInput = true;
+        isListening = true;
         try {
             recognition.start();
-            console.log('Starting recognition...'); // Debug log
+            showMicPopup();
+            console.log('Starting recognition...');
         } catch (error) {
             console.error('Error starting recognition:', error);
-            // If recognition is already started, stop and restart
             recognition.stop();
+            isListening = false;
+            hideMicPopup();
             setTimeout(() => {
                 try {
                     recognition.start();
+                    isListening = true;
+                    showMicPopup();
                 } catch (e) {
                     console.error('Failed to restart recognition:', e);
+                    isListening = false;
+                    hideMicPopup();
                 }
             }, 100);
         }
     }
+    updateMicButton();
 }
 
 // Update updateMicButton function
@@ -1034,6 +1055,53 @@ function highlightCode(code) {
         .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">$&</span>')
         .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
         .replace(/#.*/g, '<span class="comment">$&</span>');
+}
+
+// Mobile menu toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        menuToggle.innerHTML = sidebar.classList.contains('active') 
+            ? '<i class="fas fa-times"></i>' 
+            : '<i class="fas fa-bars"></i>';
+    });
+
+    // Close sidebar when clicking outside
+    mainContent.addEventListener('click', () => {
+        if (sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    });
+
+    // Handle window resize
+    let windowWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        if (window.innerWidth !== windowWidth) {
+            windowWidth = window.innerWidth;
+            if (windowWidth > 768) {
+                sidebar.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+    });
+});
+
+// Add notification function
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
 
