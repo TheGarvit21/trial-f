@@ -1,5 +1,5 @@
 // Your Gemini API Key - Replace with your actual API key
-const API_KEY = 'AIzaSyDxEpZ1tJ5TqzZp-Ut14KCn3ANLFpbzB0k';
+const API_KEY = 'AIzaSyCw9litrf3O8zjaG3sfm0oVqToUXV6rsKE';
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 let isDarkMode = true; // Set dark mode as default
